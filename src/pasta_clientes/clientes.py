@@ -7,11 +7,11 @@ clientes= Blueprint('clientes',__name__, template_folder='templates')
 def login():
     return render_template('login.html')
 
-@clientes.route('/Clientes')
+@clientes.route('/clientes')
 def inserirCliente():
-    return render_template('clientes.html')
+    return render_template('/clientes.html')
 
-@clientes.route('/Clientes', methods=['GET','POST'])
+@clientes.route('/clientes', methods=['GET','POST'])
 def cadastro ():
     formulario = request.form
     id = formulario['id_cli']

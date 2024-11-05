@@ -9,7 +9,7 @@ def login():
 
 @auth.route('/signup')
 def signup():
-    return render_template('cadastro.html')
+    return render_template('/cadastro.html')
 
 @auth.route('/signup', methods=['GET','POST'])
 def cadastro ():

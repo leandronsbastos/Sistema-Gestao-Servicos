@@ -1,5 +1,5 @@
 
-from flask import Flask, redirect, url_for,session,request,render_template
+from flask import Flask, redirect, url_for,session,request,render_template, flash
 from flask_login import LoginManager, logout_user
 from bd.db import mysql
 import datetime
@@ -380,6 +380,31 @@ def novaExecutor():
                         return redirect("/executor/menu")
 
     return render_template('/nova-requisicao-exec.html',nome=nome,senha=senha,email=email)
+
+@app.route('/adm/clientes', methods=['GET','POST'])
+def inserirCliente():
+    if not 'loggedin' in session:
+        return redirect ('/login')
+    pk_user = session['id_admin']
+    nome = session['nome_admin']
+    email = session['email_admin']
+    with mysql.cursor()as Cursor:
+        Cursor.execute("SELECT pass_user FROM user WHERE id_user =%s",(pk_user,))
+        senha = Cursor.fetchone()
+        Cursor.execute("SELECT id_user FROM user WHERE type_user = 'exec'")
+        allExec = Cursor.fetchall()
+        
+    if request.method =='POST':
+       formulario = request.form
+       id = formulario['id_cli']
+       codigo = formulario['codigo_cli']
+       nome = formulario['nome_cli']
+       with mysql.cursor()as Cursor:
+            codigodb=Cursor.execute("SELECT codigo_cli FROM clientes WHERE codigo_cli= %s",(codigo,))
+            if codigodb:
+               flash('Código de Cliente já registrado')
+            Cursor.execute("INSERT INTO Clientes (codigo_cli, nome_cli) VALUES(%s, %s, %s, %s)",(codigo, nome))
+            mysql.commit()
 
 if __name__ == "__main__":
     app.run(debug=True)

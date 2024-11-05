@@ -1123,12 +1123,12 @@ def delete(id):
         Cursor.close()
     return redirect('/adm/menu')
 
-@admin.route('/adm/Clientes')
+@admin.route('/adm/clientes')
 def inserirCliente():
-    return render_template('clientes.html')
+    return render_template('/clientes.html')
 
-@admin.route('/adm/Clientes', methods=['GET','POST'])
-def cadastro ():
+@admin.route('/adm/clientes', methods=['GET','POST'])
+def cadastro():
     formulario = request.form
     id = formulario['id_cli']
     codigo = formulario['codigo_cli']

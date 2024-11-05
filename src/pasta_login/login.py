@@ -12,8 +12,6 @@ def index():
 def profile():
     return render_template('profile.html', name=current_user.nome_user)
 
-
-
 @main.route('/login', methods=['POST'])
 def login_post():
     formulario = request.form
