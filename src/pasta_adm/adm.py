@@ -1130,7 +1130,6 @@ def inserirCliente():
 @admin.route('/adm/clientes', methods=['GET','POST'])
 def cadastro():
     formulario = request.form
-    id = formulario['id_cli']
     codigo = formulario['codigo_cli']
     nome = formulario['nome_cli']
     
@@ -1138,7 +1137,8 @@ def cadastro():
         codigodb=Cursor.execute("SELECT codigo_cli FROM clientes WHERE codigo_cli= %s",(codigo,))
         if codigodb:
             flash('Código de Cliente já registrado')
-        Cursor.execute("INSERT INTO Clientes (codigo_cli, nome_cli) VALUES(%s, %s, %s, %s)",(codigo, nome))
+        Cursor.execute("INSERT INTO Clientes (codigo_cli, nome_cli) VALUES(%s, %s)",(codigo, nome))
         mysql.commit()
+        Cursor.close()
         
     return redirect (url_for('/adm'))
