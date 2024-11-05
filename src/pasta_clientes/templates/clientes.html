@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Cadastre-se</title>
+        <title>Cadastrar Cliente</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
     </head>
@@ -16,11 +16,11 @@
             <div class="containerClientes">
                 <div class="clientes">
                     <h1>Cadastrar Cliente</h1>
-                    <div class="dadosCliente">
+                    <div class="dadosClientes">
                         <label>Codigo Cliente</label>
-                        <input type="codigo_cliente" name="codigo_cli" required>
+                        <input type="codigo" name="codigo_cli" required>
                         <label>Nome do Cliente</label>
-                        <input type="nome_cliente" name="nome_cli" required>
+                        <input type="nome" name="nome_cli" required>
                     </div>
                     <button type="submit">Cadastrar</button>
                 </div>

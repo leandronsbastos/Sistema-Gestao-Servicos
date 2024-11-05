@@ -1139,6 +1139,5 @@ def cadastro():
             flash('Código de Cliente já registrado')
         Cursor.execute("INSERT INTO Clientes (codigo_cli, nome_cli) VALUES(%s, %s)",(codigo, nome))
         mysql.commit()
-        Cursor.close()
-        
-    return redirect (url_for('/adm'))
+        Cursor.close()        
+    return redirect ('/adm')

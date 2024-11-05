@@ -872,6 +872,7 @@ span{
 
 /* Clientes */
 .containerClientes{
+    padding: 10px 10px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -887,7 +888,7 @@ span{
     margin: 20px;
     width: 40px;
 }
-.clientes{
+.clientes{    
     border: 4px solid #A8A7A7;
     border-radius: 10px;
     width: 900px;
@@ -900,16 +901,17 @@ span{
 .Clientes h1{
     font-size: 22px;
     margin: 16px 0px 32px 0px;
+    padding: 10px 10px;
 }
 
 .dadosClientes label{
-    font-size: 24px;
+    font-size: 18px;
     margin: 5px;
     display: flex;
 }
 
 .dadosClientes input{
-    padding: 3px;
+    padding: 5px 5px;
     margin-bottom: 20px;
     border-radius: 5px;
     border: solid 2px #A8A7A7;
@@ -918,6 +920,7 @@ span{
 }
 
 .clientes button{
+    padding: 10px 10px;
     margin: 32px 0px 40px 0px;
     width: 180px;
     height: 50px;

@@ -382,4 +382,4 @@ def novaExecutor():
     return render_template('/nova-requisicao-exec.html',nome=nome,senha=senha,email=email)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+   app.run(debug=True)
