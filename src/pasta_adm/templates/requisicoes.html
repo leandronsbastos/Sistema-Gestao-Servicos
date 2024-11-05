@@ -154,6 +154,7 @@
             </label>
             <ul>
                 <li class="dropdown"><a class="minha-chamada" href="/adm"> Controle de usuários </a></li>
+                <li class="dropdown"><a class="minha-chamada" href="/adm/clientes"> Cadastrar Clientes </a></li>
                 <li class="dropdown">
                     <a href="javascript:void(0)" class="dropbtn">Requisições do Sistema</a>
                     <div class="dropdown-content">
@@ -216,13 +217,43 @@
             <summary>
                 <p>{{solicitacao[1]}}</p>
                 <!--variavel titulo-->
-                {% if solicitacao[4] == 'Problemas de Hardware'%}
-                <img class="icon" src="../static/images/Hardware.png" alt="icon">
+                {% if solicitacao[4] == 'Cadastro'%}
+                <img class="icon" src="../static/images/Cadastro.png" alt="icon">
                 <!--variavel icon-->
-                {% elif solicitacao[4] == 'Problemas de Software'%}
-                <img class="icon" src="../static/images/Software.png" alt="icon">
+                {% elif solicitacao[4] == 'Clientes'%}
+                <img class="icon" src="../static/images/Clientes.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'Produtos'%}
+                <img class="icon" src="../static/images/Produtos.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'Financeiro'%}
+                <img class="icon" src="../static/images/Financeiro.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'Compras'%}
+                <img class="icon" src="../static/images/Compras.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'Vendas'%}
+                <img class="icon" src="../static/images/Vendas.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'Documentos Fiscais'%}
+                <img class="icon" src="../static/images/Documentos.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'Parâmetros'%}
+                <img class="icon" src="../static/images/Parametros.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'SPED'%}
+                <img class="icon" src="../static/images/SPED.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'Relatórios'%}
+                <img class="icon" src="../static/images/Relatorio.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'Banco de Dados'%}
+                <img class="icon" src="../static/images/Bancodedados.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'Liberação de Licenças'%}
+                <img class="icon" src="../static/images/Liberacao.png" alt="icon">
                 {%else%}
-                <img class="icon" src="../static/images/Info.png" alt="icon">
+                <img class="icon" src="../static/images/Outros.png" alt="icon">
                 {%endif%}
             </summary>
             <div class="conteudo">
@@ -295,15 +326,44 @@
             <summary>
                 <p>{{solicitacao[1]}}</p>
                 <!--variavel titulo-->
-                {% if solicitacao[4] == 'Problemas de Hardware'%}
-                <img class="icon" src="../static/images/Hardware.png" alt="icon">
+                {% if solicitacao[4] == 'Cadastro'%}
+                <img class="icon" src="../static/images/Cadastro.png" alt="icon">
                 <!--variavel icon-->
-                {% elif solicitacao[4] == 'Problemas de Software'%}
-                <img class="icon" src="../static/images/Software.png" alt="icon">
+                {% elif solicitacao[4] == 'Clientes'%}
+                <img class="icon" src="../static/images/Clientes.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'Produtos'%}
+                <img class="icon" src="../static/images/Produtos.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'Financeiro'%}
+                <img class="icon" src="../static/images/Financeiro.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'Compras'%}
+                <img class="icon" src="../static/images/Compras.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'Vendas'%}
+                <img class="icon" src="../static/images/Vendas.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'Documentos Fiscais'%}
+                <img class="icon" src="../static/images/Documentos.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'Parâmetros'%}
+                <img class="icon" src="../static/images/Parametros.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'SPED'%}
+                <img class="icon" src="../static/images/SPED.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'Relatórios'%}
+                <img class="icon" src="../static/images/Relatorio.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'Banco de Dados'%}
+                <img class="icon" src="../static/images/Bancodedados.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'Liberação de Licenças'%}
+                <img class="icon" src="../static/images/Liberacao.png" alt="icon">
                 {%else%}
-                <img class="icon" src="../static/images/Info.png" alt="icon">
+                <img class="icon" src="../static/images/Outros.png" alt="icon">
                 {%endif%}
-
             </summary>
             <div class="conteudo">
                 <p>Tipo: <span>{{solicitacao[4]}}
@@ -366,13 +426,43 @@
             <summary>
                 <p>{{solicitacao[1]}}</p>
                 <!--variavel titulo-->
-                {% if solicitacao[4] == 'Problemas de Hardware'%}
-                <img class="icon" src="../static/images/Hardware.png" alt="icon">
+                {% if solicitacao[4] == 'Cadastro'%}
+                <img class="icon" src="../static/images/Cadastro.png" alt="icon">
                 <!--variavel icon-->
-                {% elif solicitacao[4] == 'Problemas de Software'%}
-                <img class="icon" src="../static/images/Software.png" alt="icon">
+                {% elif solicitacao[4] == 'Clientes'%}
+                <img class="icon" src="../static/images/Clientes.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'Produtos'%}
+                <img class="icon" src="../static/images/Produtos.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'Financeiro'%}
+                <img class="icon" src="../static/images/Financeiro.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'Compras'%}
+                <img class="icon" src="../static/images/Compras.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'Vendas'%}
+                <img class="icon" src="../static/images/Vendas.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'Documentos Fiscais'%}
+                <img class="icon" src="../static/images/Documentos.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'Parâmetros'%}
+                <img class="icon" src="../static/images/Parametros.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'SPED'%}
+                <img class="icon" src="../static/images/SPED.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'Relatórios'%}
+                <img class="icon" src="../static/images/Relatorio.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'Banco de Dados'%}
+                <img class="icon" src="../static/images/Bancodedados.png" alt="icon">
+                <!--variavel icon-->
+                {% elif solicitacao[4] == 'Liberação de Licenças'%}
+                <img class="icon" src="../static/images/Liberacao.png" alt="icon">
                 {%else%}
-                <img class="icon" src="../static/images/Info.png" alt="icon">
+                <img class="icon" src="../static/images/Outros.png" alt="icon">
                 {%endif%}
             </summary>
             <div class="conteudo">
@@ -417,33 +507,123 @@
         {%endif%}
 
         <!--Legendas-->
-        <p class="tipo-legenda">Tipos de Problemas</p>
+        <p class="tipo-legenda">Tema da solicitacao</p>
         <div class="legenda">
-            <div class="hardware">
+            <div class="Cadastro">
                 <div>
-                    <p class="categoria">Problemas de Hardware</p>
-                    <p class="quant">Quantidade:{{cont_hardware}}</p>
+                    <p class="categoria">Cadastro</p>
+                    <p class="quant">Quantidade:{{cont_Cadastro}}</p>
                     <!--variavel de quantidade-->
                 </div>
-                <img class="icon" src="../../static/images/Hardware.png" alt="icon">
+                <img class="icon" src="../../static/images/Cadastro.png" alt="icon">
             </div>
 
-            <div class="software">
+            <div class="Clientes">
                 <div>
-                    <p class="categoria">Problemas de Software</p>
-                    <p class="quant">Quantidade:{{cont_software}}</p>
+                    <p class="categoria">Clientes</p>
+                    <p class="quant">Quantidade:{{cont_Clientes}}</p>
                     <!--variavel de quantidade-->
                 </div>
-                <img class="icon" src="../../static/images/Software.png" alt="icon">
+                <img class="icon" src="../../static/images/Clientes.png" alt="icon">
             </div>
 
-            <div class="info">
+            <div class="Produtos">
                 <div>
-                    <p class="categoria">Esclarecimento/informação</p>
-                    <p class="quant">Quantidade:{{cont_duv}}</p>
+                    <p class="categoria">Produtos</p>
+                    <p class="quant">Quantidade:{{cont_Produtos}}</p>
                     <!--variavel de quantidade-->
                 </div>
-                <img class="icon" src="../../static/images/Info.png" alt="icon">
+                <img class="icon" src="../../static/images/Produtos.png" alt="icon">
+            </div>
+
+            <div class="Financeiro">
+                <div>
+                    <p class="categoria">Financeiro</p>
+                    <p class="quant">Quantidade:{{cont_Financeiro}}</p>
+                    <!--variavel de quantidade-->
+                </div>
+                <img class="icon" src="../../static/images/Financeiro.png" alt="icon">
+            </div>
+
+            <div class="Compras">
+                <div>
+                    <p class="categoria">Compras</p>
+                    <p class="quant">Quantidade:{{cont_Compras}}</p>
+                    <!--variavel de quantidade-->
+                </div>
+                <img class="icon" src="../../static/images/Compras.png" alt="icon">
+            </div>
+
+            <div class="Vendas">
+                <div>
+                    <p class="categoria">Vendas</p>
+                    <p class="quant">Quantidade:{{cont_Vendas}}</p>
+                    <!--variavel de quantidade-->
+                </div>
+                <img class="icon" src="../../static/images/Vendas.png" alt="icon">
+            </div>
+
+            <div class="Documentos Fiscais">
+                <div>
+                    <p class="categoria">Documentos Fiscais</p>
+                    <p class="quant">Quantidade:{{cont_Documentos}}</p>
+                    <!--variavel de quantidade-->
+                </div>
+                <img class="icon" src="../../static/images/Documentos.png" alt="icon">
+            </div>
+
+            <div class="Parâmentros">
+                <div>
+                    <p class="categoria">Parâmentros</p>
+                    <p class="quant">Quantidade:{{cont_Parametros}}</p>
+                    <!--variavel de quantidade-->
+                </div>
+                <img class="icon" src="../../static/images/Parametros.png" alt="icon">
+            </div>
+
+            <div class="SPED">
+                <div>
+                    <p class="categoria">SPED</p>
+                    <p class="quant">Quantidade:{{cont_SPED}}</p>
+                    <!--variavel de quantidade-->
+                </div>
+                <img class="icon" src="../../static/images/SPED.png" alt="icon">
+            </div>
+
+            <div class="Relatórios">
+                <div>
+                    <p class="categoria">Relatórios</p>
+                    <p class="quant">Quantidade:{{cont_Relatorios}}</p>
+                    <!--variavel de quantidade-->
+                </div>
+                <img class="icon" src="../../static/images/Relatorios.png" alt="icon">
+            </div>
+            
+            <div class="Banco de Dados">
+                <div>
+                    <p class="categoria">Banco de Dados</p>
+                    <p class="quant">Quantidade:{{cont_Banco}}</p>
+                    <!--variavel de quantidade-->
+                </div>
+                <img class="icon" src="../../static/images/Bancodedados.png" alt="icon">
+            </div>
+
+            <div class="Liberação de Licenças">
+                <div>
+                    <p class="categoria">Liberação de Licenças</p>
+                    <p class="quant">Quantidade:{{cont_Liberacao}}</p>
+                    <!--variavel de quantidade-->
+                </div>
+                <img class="icon" src="../../static/images/Liberacao.png" alt="icon">
+            </div>
+
+            <div class="Outros">
+                <div>
+                    <p class="categoria">Outros</p>
+                    <p class="quant">Quantidade:{{cont_Outros}}</p>
+                    <!--variavel de quantidade-->
+                </div>
+                <img class="icon" src="../../static/images/Outros.png" alt="icon">
             </div>
         </div>
     </main>

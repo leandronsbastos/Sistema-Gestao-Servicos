@@ -23,9 +23,7 @@ Create table solicitacao(
     id_user int,
     avaliacao int,
     coment_avaliacao varchar(155),
-    id_fechador int,
-    constraint ck_type_problem Check (type_problem in ('Problemas de Hardware','Problemas de Software','Duvidas ou Esclarecimentos'))
-);
+    id_fechador int);
 
 ALTER TABLE solicitacao ADD FOREIGN KEY (id_user) REFERENCES user(id_user);
 INSERT INTO user (nome_user,email_user,pass_user,type_user) VALUES ('admin','admin@admin','admin','admin');

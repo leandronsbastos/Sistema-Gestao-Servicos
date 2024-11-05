@@ -59,6 +59,7 @@
             </label>
             <ul>
                 <li class="dropdown"><a class="minha-chamada" href="/adm"> Controle de usuários </a></li>
+                <li class="dropdown"><a class="minha-chamada" href="/adm/clientes"> Cadastrar Clientes </a></li>
                 <li class="dropdown">
                     <a href="javascript:void(0)" class="dropbtn">Requisições do Sistema</a>
                     <div class="dropdown-content">
@@ -225,19 +226,39 @@
         const myChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['Hardware', 'Software', 'Duvidas ou Esclarecimentos'],
+                labels: ['Cadastro','Clientes','Produtos','Financeiro','Compras','Vendas','Documentos','SPED','Parametros','Relatorios','Banco','Liberacao','Outros'],
                 datasets: [{
                     label: '',
-                    data: ['{{tipo_hardware}}', '{{tipo_software}}', '{{tipo_duvida}}'],
+                    data: ['{{tipo_Cadastro}}', '{{tipo_Clientes}}', '{{tipo_Produtos}}','{{tipo_Financeiro}}', '{{tipo_Compras}}', '{{tipo_Vendas}}','{{tipo_Documentos}}', '{{tipo_SPED}}', '{{tipo_Banco}}','{{tipo_Parametros}}', '{{tipo_Relatorios}}', '{{tipo_Banco}}''{{tipo_Liberacao}}', '{{tipo_Outros}}'],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)'
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(250, 128, 114, 0.2)',
+                        'rgba(255, 69, 0, 0.2)',
+                        'rgba(255, 140, 0, 0.2)',
+                        'rgba(255, 99, 71, 0.2)',
+                        'rgba(255, 0, 0, 0.2)',
+                        'rgba(178, 34, 34, 0.2)',
+                        'rgba(255, 127, 80, 0.2)',
+                        'rgba(75, 0, 130, 0.2)',
+                        'rgba(139, 0, 139, 0.2)',
+                        'rgba(221, 160, 221, 0.2)'
                     ],
                     borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)'
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(250, 128, 114, 0.2)',
+                    'rgba(255, 69, 0, 0.2)',
+                    'rgba(255, 140, 0, 0.2)',
+                    'rgba(255, 99, 71, 0.2)',
+                    'rgba(255, 0, 0, 0.2)',
+                    'rgba(178, 34, 34, 0.2)',
+                    'rgba(255, 127, 80, 0.2)',
+                    'rgba(75, 0, 130, 0.2)',
+                    'rgba(139, 0, 139, 0.2)',
+                    'rgba(221, 160, 221, 0.2)'
                     ],
                     borderWidth: 1
                 }]

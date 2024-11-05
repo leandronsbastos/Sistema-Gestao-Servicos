@@ -1,6 +1,6 @@
 from re import M
 from zlib import DEF_BUF_SIZE
-from flask import Blueprint,render_template,request,redirect,session, url_for
+from flask import Blueprint,render_template,request,redirect,session, flash,url_for
 from bd.db import mysql
 admin = Blueprint('admin', __name__, template_folder='templates')
 import datetime
@@ -10,8 +10,6 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
  
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-
 
 def P(ANO, MES, DIA, PERIODO):
     M31 = [1, 3, 5, 7, 8, 10, 12]
@@ -102,19 +100,28 @@ def home():
         pk_user = session["id_admin"]
         Cursor.execute("SELECT id_user FROM solicitacao WHERE id_user = %s", (pk_user,))
         conta = Cursor.fetchone()
-        cont_hardware=Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Problemas de Hardware' and id_user= %s",(pk_user,))
-        cont_software= Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Problemas de Software' and id_user =%s", (pk_user,))
-        cont_duv= Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Duvidas ou Esclarecimentos'and id_user =%s", (pk_user,))
-
+        cont_Cadastro=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Cadastro' and id_user= %s",(pk_user,))
+        cont_Clientes=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Clientes' and id_user= %s",(pk_user,))
+        cont_Produtos=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Produtos' and id_user= %s",(pk_user,))
+        cont_Financeiro=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Financeiro' and id_user= %s",(pk_user,))
+        cont_Compras=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Compras' and id_user= %s",(pk_user,))
+        cont_Vendas=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Vendas' and id_user= %s",(pk_user,))
+        cont_Documentos=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Documentos Fiscais' and id_user=%s",(pk_user,))
+        cont_SPED=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='SPED' and id_user= %s",(pk_user,))
+        cont_Parametros=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Parâmetros' and id_user= %s",(pk_user,))
+        cont_Relatorios=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Relatórios' and id_user= %s",(pk_user,))
+        cont_Banco=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Banco de Dados' and id_user= %s",(pk_user,))
+        cont_Liberacao=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Liberação de Licenças' and id_user= %s",(pk_user,))
+        cont_Outros=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Outros' and id_user= %s",(pk_user,))
         leitoraberto= Cursor.execute("SELECT * FROM solicitacao WHERE status_sol='Aberta' and id_user =%s",(pk_user,))
         leitorfechado= Cursor.execute ("SELECT * FROM solicitacao WHERE status_sol='Fechada' and id_user =%s",(pk_user,))
         
         Values = Cursor.execute("SELECT * FROM solicitacao WHERE id_user= %s  order by id_sol DESC",(pk_user))
         if Values > 0:
             Details = Cursor.fetchall()
-            return render_template('/home-adm.html',Details=Details,Values=Values,cont_hardware=cont_hardware,cont_software=cont_software,cont_duv=cont_duv,leitoraberto=leitoraberto,leitorfechado=leitorfechado,conta=conta,senha=senha,email=email, nome=nome)
+            return render_template('/home-adm.html',Details=Details,Values=Values,cont_Cadastro=cont_Cadastro,cont_Clientes=cont_Clientes,cont_Produtos=cont_Produtos,cont_Financeiro=cont_Financeiro,cont_Compras=cont_Compras,cont_Vendas=cont_Vendas,cont_Documentos=cont_Documentos,cont_SPED=cont_SPED,cont_Parametros=cont_Parametros,cont_Relatorios=cont_Relatorios,cont_Banco=cont_Banco,cont_Liberacao=cont_Liberacao,cont_Outros=cont_Outros,leitoraberto=leitoraberto,leitorfechado=leitorfechado,conta=conta,senha=senha,email=email, nome=nome)
         else:
-            return render_template('/home-adm.html', Values=Values,cont_hardware=cont_hardware,cont_software=cont_software,cont_duv=cont_duv,pk_user=pk_user,senha=senha,email=email,nome =nome)
+            return render_template('/home-adm.html', Values=Values,cont_Cadastro=cont_Cadastro,cont_Clientes=cont_Clientes,cont_Produtos=cont_Produtos,cont_Financeiro=cont_Financeiro,cont_Compras=cont_Compras,cont_Vendas=cont_Vendas,cont_Documentos=cont_Documentos,cont_SPED=cont_SPED,cont_Parametros=cont_Parametros,cont_Relatorios=cont_Relatorios,cont_Banco=cont_Banco,cont_Liberacao=cont_Liberacao,cont_Outros=cont_Outros,pk_user=pk_user,senha=senha,email=email,nome =nome)
 
 @admin.route("/adm/requisicoes",methods=["GET"])
 def requisicoes():
@@ -126,21 +133,28 @@ def requisicoes():
     with mysql.cursor()as Cursor:
         Cursor.execute("SELECT pass_user FROM user WHERE id_user =%s",(pk_user,))
         senha = Cursor.fetchone()
-
-        cont_hardware=Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Problemas de Hardware'")
-        cont_software= Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Problemas de Software'")
-        cont_duv= Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Duvidas ou Esclarecimentos'")
-
+        cont_Cadastro=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Cadastro'")
+        cont_Clientes=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Clientes'")
+        cont_Produtos=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Produtos'")
+        cont_Financeiro=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Financeiro'")
+        cont_Compras=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Compras'")
+        cont_Vendas=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Vendas'")
+        cont_Documentos=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Documentos Fiscais'")
+        cont_SPED=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='SPED'")
+        cont_Parametros=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Parâmetros'")
+        cont_Relatorios=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Relatórios'")
+        cont_Banco=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Banco de Dados'")
+        cont_Liberacao=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Liberação de Licenças'")
+        cont_Outros=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Outros'")
         leitoraberto= Cursor.execute("SELECT * FROM solicitacao WHERE status_sol='Aberta'")
         leitorfechado= Cursor.execute ("SELECT * FROM solicitacao WHERE status_sol='Fechada'")
         leitorandamento= Cursor.execute ("SELECT * FROM solicitacao WHERE status_sol='Andamento'")
-
         Values=Cursor.execute("SELECT * FROM solicitacao order by id_sol DESC")
         if Values > 0:
             Details = Cursor.fetchall()
             
-            return render_template('/requisicoes.html', Details=Details,Values=Values,cont_hardware = cont_hardware,cont_software=cont_software,cont_duv=cont_duv,leitoraberto = leitoraberto ,leitorfechado = leitorfechado ,leitorandamento=leitorandamento,senha = senha , email=email, nome = nome)
-        return render_template('/requisicoes.html',Values=Values,cont_hardware=cont_hardware,cont_software=cont_software,cont_duv=cont_duv,senha = senha , email=email, nome = nome)
+            return render_template('/requisicoes.html', Details=Details,Values=Values,cont_Cadastro=cont_Cadastro,cont_Clientes=cont_Clientes,cont_Produtos=cont_Produtos,cont_Financeiro=cont_Financeiro,cont_Compras=cont_Compras,cont_Vendas=cont_Vendas,cont_Documentos=cont_Documentos,cont_SPED=cont_SPED,cont_Parametros=cont_Parametros,cont_Relatorios=cont_Relatorios,cont_Banco=cont_Banco,cont_Liberacao=cont_Liberacao,cont_Outros=cont_Outros,leitoraberto = leitoraberto ,leitorfechado = leitorfechado ,leitorandamento=leitorandamento,senha = senha , email=email, nome = nome)
+        return render_template('/requisicoes.html',Values=Values,cont_Cadastro=cont_Cadastro,cont_Clientes=cont_Clientes,cont_Produtos=cont_Produtos,cont_Financeiro=cont_Financeiro,cont_Compras=cont_Compras,cont_Vendas=cont_Vendas,cont_Documentos=cont_Documentos,cont_SPED=cont_SPED,cont_Parametros=cont_Parametros,cont_Relatorios=cont_Relatorios,cont_Banco=cont_Banco,cont_Liberacao=cont_Liberacao,cont_Outros=cont_Outros,senha = senha , email=email, nome = nome)
 
 @admin.route("/adm/estatisticas",methods=['GET'])
 def estatisticas():
@@ -165,9 +179,19 @@ def estatisticas():
             DIA = int(DATA_ATUAL[8:])
             if dias_select == '1':
                 DATA_FINAL = P(ANO, MES, DIA, 1)
-                tipo_hardware=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Problemas de Hardware' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
-                tipo_software=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Problemas de Software' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
-                tipo_duvida=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Duvidas ou Esclarecimentos' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Cadastro=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Cadastro' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Clientes=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Clientes' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Produtos=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Produtos' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Financeiro=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Financeiro' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Compras=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Compras' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Vendas=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Vendas' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Documentos=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Documentos Fiscais' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_SPED=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='SPED' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Parametros=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Parâmetros' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Relatorios=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Relatórios' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Banco=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Banco de Dados' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Liberacao=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Liberação de Licenças' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Outros=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Outros' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
                 num_user=Cursor.execute("SELECT * FROM user WHERE type_user='user'")
                 num_exec=Cursor.execute("SELECT * FROM user WHERE type_user='exec'")
                 totaluser = Cursor.execute("SELECT id_user from user WHERE type_user = 'user' ")
@@ -231,9 +255,19 @@ def estatisticas():
                 print(lista)
             elif dias_select == '7':
                 DATA_FINAL = P(ANO, MES, DIA, 7)
-                tipo_hardware=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Problemas de Hardware' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
-                tipo_software=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Problemas de Software' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
-                tipo_duvida=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Duvidas ou Esclarecimentos' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Cadastro=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Cadastro' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Clientes=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Clientes' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Produtos=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Produtos' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Financeiro=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Financeiro' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Compras=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Compras' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Vendas=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Vendas' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Documentos=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Documentos Fiscais' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_SPED=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='SPED' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Parametros=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Parâmetros' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Relatorios=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Relatórios' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Banco=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Banco de Dados' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Liberacao=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Liberação de Licenças' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Outros=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Outros' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
                 num_user=Cursor.execute("SELECT * FROM user WHERE type_user='user'")
                 num_exec=Cursor.execute("SELECT * FROM user WHERE type_user='exec'")
                 totaluser = Cursor.execute("SELECT id_user from user WHERE type_user = 'user' ")
@@ -297,9 +331,19 @@ def estatisticas():
                 print(lista)
             elif dias_select == '15':
                 DATA_FINAL = P(ANO, MES, DIA, 15)
-                tipo_hardware=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Problemas de Hardware' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
-                tipo_software=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Problemas de Software' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
-                tipo_duvida=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Duvidas ou Esclarecimentos' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Cadastro=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Cadastro' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Clientes=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Clientes' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Produtos=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Produtos' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Financeiro=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Financeiro' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Compras=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Compras' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Vendas=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Vendas' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Documentos=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Documentos Fiscais' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_SPED=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='SPED' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Parametros=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Parâmetros' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Relatorios=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Relatórios' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Banco=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Banco de Dados' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Liberacao=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Liberação de Licenças' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Outros=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Outros' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
                 num_user=Cursor.execute("SELECT * FROM user WHERE type_user='user'")
                 num_exec=Cursor.execute("SELECT * FROM user WHERE type_user='exec'")
                 totaluser = Cursor.execute("SELECT id_user from user WHERE type_user = 'user' ")
@@ -363,9 +407,19 @@ def estatisticas():
                 print(lista)
             elif dias_select == '30':
                 DATA_FINAL = P(ANO, MES, DIA, 30)
-                tipo_hardware=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Problemas de Hardware' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
-                tipo_software=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Problemas de Software' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
-                tipo_duvida=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Duvidas ou Esclarecimentos' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Cadastro=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Cadastro' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Clientes=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Clientes' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Produtos=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Produtos' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Financeiro=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Financeiro' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Compras=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Compras' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Vendas=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Vendas' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Documentos=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Documentos Fiscais' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_SPED=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='SPED' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Parametros=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Parâmetros' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Relatorios=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Relatórios' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Banco=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Banco de Dados' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Liberacao=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Liberação de Licenças' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Outros=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Outros' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
                 num_user=Cursor.execute("SELECT * FROM user WHERE type_user='user'")
                 num_exec=Cursor.execute("SELECT * FROM user WHERE type_user='exec'")
                 totaluser = Cursor.execute("SELECT id_user from user WHERE type_user = 'user' ")
@@ -428,9 +482,19 @@ def estatisticas():
                         listaaa.append(seia)
                 print(lista)
             else:
-                tipo_hardware=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Problemas de Hardware'")
-                tipo_software=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Problemas de Software'")
-                tipo_duvida=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Duvidas ou Esclarecimentos'")
+                tipo_Cadastro=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Cadastro'")
+                tipo_Clientes=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Clientes'")
+                tipo_Produtos=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Produtos'")
+                tipo_Financeiro=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Financeiro'")
+                tipo_Compras=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Compras'")
+                tipo_Vendas=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Vendas'")
+                tipo_Documentos=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Documentos Fiscais'")
+                tipo_SPED=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='SPED'")
+                tipo_Parametros=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Parâmetros'")
+                tipo_Relatorios=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Relatórios'")
+                tipo_Banco=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Banco de Dados'")
+                tipo_Liberacao=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Liberação de Licenças'")
+                tipo_Outros=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Outros'")
                 num_user=Cursor.execute("SELECT * FROM user WHERE type_user='user'")
                 num_exec=Cursor.execute("SELECT * FROM user WHERE type_user='exec'")
                 num_analise=Cursor.execute("SELECT * FROM solicitacao WHERE status_sol='Aberta'")
@@ -484,9 +548,19 @@ def estatisticas():
             DIA = int(DATA_ATUAL[8:])
             if dias_select == '1':
                 DATA_FINAL = P(ANO, MES, DIA, 1)
-                tipo_hardware=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Problemas de Hardware' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
-                tipo_software=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Problemas de Software' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
-                tipo_duvida=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Duvidas ou Esclarecimentos' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Cadastro=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Cadastro' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Clientes=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Clientes' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Produtos=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Produtos' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Financeiro=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Financeiro' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Compras=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Compras' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Vendas=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Vendas' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Documentos=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Documentos Fiscais' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_SPED=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='SPED' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Parametros=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Parâmetros' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Relatorios=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Relatórios' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Banco=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Banco de Dados' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Liberacao=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Liberação de Licenças' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Outros=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Outros' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
                 num_user=Cursor.execute("SELECT * FROM user WHERE type_user='user'")
                 num_exec=Cursor.execute("SELECT * FROM user WHERE type_user='exec'")
                 totaluser = Cursor.execute("SELECT id_user from user WHERE type_user = 'user' ")
@@ -550,9 +624,19 @@ def estatisticas():
                 print(lista)
             elif dias_select == '7':
                 DATA_FINAL = P(ANO, MES, DIA, 7)
-                tipo_hardware=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Problemas de Hardware' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
-                tipo_software=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Problemas de Software' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
-                tipo_duvida=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Duvidas ou Esclarecimentos' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Cadastro=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Cadastro' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Clientes=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Clientes' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Produtos=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Produtos' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Financeiro=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Financeiro' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Compras=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Compras' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Vendas=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Vendas' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Documentos=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Documentos Fiscais' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_SPED=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='SPED' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Parametros=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Parâmetros' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Relatorios=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Relatórios' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Banco=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Banco de Dados' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Liberacao=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Liberação de Licenças' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Outros=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Outros' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
                 num_user=Cursor.execute("SELECT * FROM user WHERE type_user='user'")
                 num_exec=Cursor.execute("SELECT * FROM user WHERE type_user='exec'")
                 totaluser = Cursor.execute("SELECT id_user from user WHERE type_user = 'user' ")
@@ -616,9 +700,19 @@ def estatisticas():
                 print(lista)
             elif dias_select == '15':
                 DATA_FINAL = P(ANO, MES, DIA, 15)
-                tipo_hardware=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Problemas de Hardware' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
-                tipo_software=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Problemas de Software' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
-                tipo_duvida=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Duvidas ou Esclarecimentos' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Cadastro=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Cadastro' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Clientes=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Clientes' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Produtos=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Produtos' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Financeiro=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Financeiro' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Compras=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Compras' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Vendas=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Vendas' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Documentos=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Documentos Fiscais' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_SPED=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='SPED' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Parametros=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Parâmetros' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Relatorios=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Relatórios' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Banco=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Banco de Dados' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Liberacao=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Liberação de Licenças' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Outros=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Outros' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
                 num_user=Cursor.execute("SELECT * FROM user WHERE type_user='user'")
                 num_exec=Cursor.execute("SELECT * FROM user WHERE type_user='exec'")
                 totaluser = Cursor.execute("SELECT id_user from user WHERE type_user = 'user' ")
@@ -683,9 +777,19 @@ def estatisticas():
             elif dias_select == '30':
                 DATA_FINAL = P(ANO, MES, DIA, 30)
                 print(DATA_FINAL)
-                tipo_hardware=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Problemas de Hardware' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
-                tipo_software=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Problemas de Software' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
-                tipo_duvida=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Duvidas ou Esclarecimentos' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Cadastro=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Cadastro' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Clientes=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Clientes' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Produtos=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Produtos' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Financeiro=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Financeiro' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Compras=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Compras' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Vendas=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Vendas' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Documentos=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Documentos Fiscais' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_SPED=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='SPED' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Parametros=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Parâmetros' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Relatorios=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Relatórios' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Banco=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Banco de Dados' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Liberacao=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Liberação de Licenças' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
+                tipo_Outros=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Outros' and data_inicio between %s and %s", (DATA_ATUAL, DATA_FINAL,))
                 num_user=Cursor.execute("SELECT * FROM user WHERE type_user='user'")
                 num_exec=Cursor.execute("SELECT * FROM user WHERE type_user='exec'")
                 totaluser = Cursor.execute("SELECT id_user from user WHERE type_user = 'user' ")
@@ -749,9 +853,19 @@ def estatisticas():
                 print(lista)
                 print(type(DATA_ATUAL), DATA_ATUAL, DATA_FINAL)
             else:
-                tipo_hardware=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Problemas de Hardware'")
-                tipo_software=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Problemas de Software'")
-                tipo_duvida=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Duvidas ou Esclarecimentos'")
+                tipo_Cadastro=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Cadastro'")
+                tipo_Clientes=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Clientes'")
+                tipo_Produtos=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Produtos'")
+                tipo_Financeiro=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Financeiro'")
+                tipo_Compras=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Compras'")
+                tipo_Vendas=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Vendas'")
+                tipo_Documentos=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Documentos Fiscais'")
+                tipo_SPED=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='SPED'")
+                tipo_Parametros=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Parâmetros'")
+                tipo_Relatorios=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Relatórios'")
+                tipo_Banco=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Banco de Dados'")
+                tipo_Liberacao=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Liberação de Licenças'")
+                tipo_Outros=Cursor.execute("SELECT * FROM solicitacao WHERE type_problem='Outros'")
                 num_user=Cursor.execute("SELECT * FROM user WHERE type_user='user'")
                 num_exec=Cursor.execute("SELECT * FROM user WHERE type_user='exec'")
                 num_analise=Cursor.execute("SELECT * FROM solicitacao WHERE status_sol='Aberta'")
@@ -816,7 +930,7 @@ def estatisticas():
                 final=round(final[0],1)
             else:
                 final=0
-        return render_template("char.html",tipo_hardware=tipo_hardware,tipo_software=tipo_software,tipo_duvida=tipo_duvida,num_exec=aporcentoExec,num_analise=num_analise,num_andamento=num_andamento,num_fechada=num_fechada,avaliacao_otimo=avaliacao_otimo,avaliacao_bom=avaliacao_bom,num_user=aporcentoUser,avaliacao_ruim=avaliacao_ruim,avaliacao_pessima=avaliacao_pessima,avaliacao_mediana=avaliacao_mediana,senha = senha , email=email, nome = nome, dataaa=dataaa,aporcentoUsers=aporcentoUsers,aporcentoExecs=aporcentoExecs,data_final=data_final,data_inicio=data_inicio,lista=lista,listaa=listaa,listaaa=listaaa)
+        return render_template("char.html",tipo_Cadastro=tipo_Cadastro,tipo_Clientes=tipo_Clientes,tipo_Produtos=tipo_Produtos,tipo_Financeiro=tipo_Financeiro,tipo_Compras=tipo_Compras,tipo_Vendas=tipo_Vendas,tipo_Documentos=tipo_Documentos,tipo_SPED=tipo_SPED,tipo_Parametros=tipo_Parametros,tipo_Relatorios=tipo_Relatorios,tipo_Banco=tipo_Banco,tipo_Liberacao=tipo_Liberacao,tipo_Outros=tipo_Outros,num_exec=aporcentoExec,num_analise=num_analise,num_andamento=num_andamento,num_fechada=num_fechada,avaliacao_otimo=avaliacao_otimo,avaliacao_bom=avaliacao_bom,num_user=aporcentoUser,avaliacao_ruim=avaliacao_ruim,avaliacao_pessima=avaliacao_pessima,avaliacao_mediana=avaliacao_mediana,senha = senha , email=email, nome = nome, dataaa=dataaa,aporcentoUsers=aporcentoUsers,aporcentoExecs=aporcentoExecs,data_final=data_final,data_inicio=data_inicio,lista=lista,listaa=listaa,listaaa=listaaa)
 
 
 @admin.route("/historico-avaliacao<id>")
@@ -830,10 +944,20 @@ def avaliacao(id):
         Cursor.execute("SELECT pass_user FROM user WHERE id_user =%s",(pk_user,))
         senha = Cursor.fetchone()
         leitorfechado= Cursor.execute ("SELECT * FROM solicitacao WHERE status_sol='Fechada' and id_fechador =%s and avaliacao!=0 ",(id,))
-
-        cont_hardware_adm =Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Problemas de Hardware' and id_fechador =%s and avaliacao != 0 ",(id,))
-        cont_software_adm = Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Problemas de Software' and id_fechador =%s and avaliacao != 0 ",(id,))
-        cont_duv_adm = Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Duvidas ou Esclarecimentos' and id_fechador =%s and avaliacao != 0 ",(id,))
+        cont_Cadastro_adm=Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Cadastro'and and id_fechador =%s and avaliacao != 0 ",(id,))
+        cont_Clientes_adm=Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Clientes'and and id_fechador =%s and avaliacao != 0 ",(id,))
+        cont_Produtos_adm=Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Produtos'and and id_fechador =%s and avaliacao != 0 ",(id,))
+        cont_Financeiro_adm=Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Financeiro'and and id_fechador =%s and avaliacao != 0 ",(id,))
+        cont_Compras_adm=Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Compras'and and id_fechador =%s and avaliacao != 0 ",(id,))
+        cont_Vendas_adm=Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Vendas'and and id_fechador =%s and avaliacao != 0 ",(id,))
+        cont_Documentos_adm=Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Documentos Fiscais'and and id_fechador =%s and avaliacao != 0 ",(id,))
+        cont_SPED_adm=Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='SPED'and and id_fechador =%s and avaliacao != 0 ",(id,))
+        cont_Parametros_adm=Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Parâmetros'and and id_fechador =%s and avaliacao != 0 ",(id,))
+        cont_Relatorios_adm=Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Relatórios'and and id_fechador =%s and avaliacao != 0 ",(id,))
+        cont_Banco_adm=Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Banco de Dados'and and id_fechador =%s and avaliacao != 0 ",(id,))
+        cont_Liberacao_adm=Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Liberação de Licenças'and and id_fechador =%s and avaliacao != 0 ",(id,))
+        cont_Outros_adm=Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Outros'and and id_fechador =%s and avaliacao != 0 ",(id,))
+        
         Cursor.execute("SELECT id_user FROM user WHERE id_user= %s ",(id))
         vai = Cursor.fetchone()
         Cursor.execute("SELECT nome_user FROM user WHERE id_user= %s ",(id))
@@ -850,7 +974,7 @@ def avaliacao(id):
         Values=Cursor.execute("SELECT * FROM solicitacao WHERE id_fechador = %s",(id,))
         if Values > 0:
             Details = Cursor.fetchall()
-    return render_template("/Historico-avaliacao.html",Values=Values,Details=Details,cont_hardware_adm=cont_hardware_adm,cont_software_adm=cont_software_adm,cont_duv_adm=cont_duv_adm,leitorfechado=leitorfechado,vai=vai,nome=nome,email=email,senha=senha,nomeuser=nomeuser,media=media)
+    return render_template("/Historico-avaliacao.html",Values=Values,Details=Details,cont_Cadastro_adm=cont_Cadastro_adm,cont_Clientes_adm=cont_Clientes_adm,cont_Produtos_adm=cont_Produtos_adm,cont_Financeiro_adm=cont_Financeiro_adm,cont_Compras_adm=cont_Compras_adm,cont_Vendas_adm=cont_Vendas_adm,cont_Documentos_adm=cont_Documentos_adm,cont_SPED_adm=cont_SPED_adm,cont_Parametros_adm=cont_Parametros_adm,cont_Relatorios_adm=cont_Relatorios_adm,cont_Banco_adm=cont_Banco_adm,cont_Liberacao_adm=cont_Liberacao_adm,cont_Outros_adm=cont_Outros_adm,leitorfechado=leitorfechado,vai=vai,nome=nome,email=email,senha=senha,nomeuser=nomeuser,media=media)
 
 
 @admin.route("/cargo<id>")
@@ -916,12 +1040,20 @@ def vizu(id):
         leitoraberto= Cursor.execute("SELECT * FROM solicitacao WHERE status_sol='Aberta' and id_user =%s",(id,))
         leitorfechado= Cursor.execute ("SELECT * FROM solicitacao WHERE status_sol='Fechada' and id_user =%s",(id,))
         leitorandamento= Cursor.execute ("SELECT * FROM solicitacao WHERE status_sol='Andamento' and id_user =%s",(id,))
-
-        cont_hardware_adm =Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Problemas de Hardware' and id_user =%s",(id,))
-        cont_software_adm = Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Problemas de Software'and id_user =%s",(id,))
-        cont_duv_adm = Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Duvidas ou Esclarecimentos' and id_user =%s",(id,))
-
-
+        cont_Cadastro_adm=Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Cadastro'and and id_user =%s",(id,))
+        cont_Clientes_adm=Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Clientes'and and id_user =%s",(id,))
+        cont_Produtos_adm=Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Produtos'and and id_user =%s",(id,))
+        cont_Financeiro_adm=Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Financeiro'and and id_user =%s",(id,))
+        cont_Compras_adm=Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Compras'and and id_user =%s",(id,))
+        cont_Vendas_adm=Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Vendas'and and id_user =%s",(id,))
+        cont_Documentos_adm=Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Documentos Fiscais'and and id_user =%s",(id,))
+        cont_SPED_adm=Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='SPED'and and id_user =%s",(id,))
+        cont_Parametros_adm=Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Parâmetros'and and id_user =%s",(id,))
+        cont_Relatorios_adm=Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Relatórios'and and id_user =%s",(id,))
+        cont_Banco_adm=Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Banco de Dados'and and id_user =%s",(id,))
+        cont_Liberacao_adm=Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Liberação de Licenças'and and id_user =%s",(id,))
+        cont_Outros_adm=Cursor.execute("SELECT type_problem FROM solicitacao WHERE type_problem='Outros'and and id_user =%s",(id,))
+        
         Cursor.execute("SELECT id_user FROM user WHERE id_user= %s ",(id))
         vai = Cursor.fetchone()
 
@@ -936,7 +1068,7 @@ def vizu(id):
         if Values > 0:
             Details = Cursor.fetchall()
             
-    return render_template("/view_solicit_user.html",Values=Values,nome=nome,Details=Details,leitoraberto=leitoraberto,leitorfechado=leitorfechado,leitorandamento=leitorandamento,vai=vai,cont_software_adm=cont_software_adm,cont_hardware_adm=cont_hardware_adm, cont_duv_adm= cont_duv_adm,email=email,senha=senha, nomeuser=nomeuser)
+    return render_template("/view_solicit_user.html",Values=Values,nome=nome,Details=Details,leitoraberto=leitoraberto,leitorfechado=leitorfechado,leitorandamento=leitorandamento,vai=vai,cont_Cadastro_adm=cont_Cadastro_adm,cont_Clientes_adm=cont_Clientes_adm,cont_Produtos_adm=cont_Produtos_adm,cont_Financeiro_adm=cont_Financeiro_adm,cont_Compras_adm=cont_Compras_adm,cont_Vendas_adm=cont_Vendas_adm,cont_Documentos_adm=cont_Documentos_adm,cont_SPED_adm=cont_SPED_adm,cont_Parametros_adm=cont_Parametros_adm,cont_Relatorios_adm=cont_Relatorios_adm,cont_Banco_adm=cont_Banco_adm,cont_Liberacao_adm=cont_Liberacao_adm,cont_Outros_adm=cont_Outros_adm,email=email,senha=senha, nomeuser=nomeuser)
 
 @admin.route('/aceitando_adm/<id>', methods=['POST'])
 def aceitar(id):
@@ -990,3 +1122,23 @@ def delete(id):
         mysql.commit()
         Cursor.close()
     return redirect('/adm/menu')
+
+@admin.route('/adm/Clientes')
+def inserirCliente():
+    return render_template('clientes.html')
+
+@admin.route('/adm/Clientes', methods=['GET','POST'])
+def cadastro ():
+    formulario = request.form
+    id = formulario['id_cli']
+    codigo = formulario['codigo_cli']
+    nome = formulario['nome_cli']
+    
+    with mysql.cursor()as Cursor:
+        codigodb=Cursor.execute("SELECT codigo_cli FROM clientes WHERE codigo_cli= %s",(codigo,))
+        if codigodb:
+            flash('Código de Cliente já registrado')
+        Cursor.execute("INSERT INTO Clientes (codigo_cli, nome_cli) VALUES(%s, %s, %s, %s)",(codigo, nome))
+        mysql.commit()
+        
+    return redirect (url_for('/adm'))

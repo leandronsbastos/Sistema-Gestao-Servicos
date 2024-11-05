@@ -9,6 +9,7 @@ from pasta_executor.executor import executor_blueprint
 from pasta_login.login import main
 from pasta_cadastro.cadastro import auth
 from pasta_adm.adm import admin
+from pasta_clientes.clientes import clientes
 
 import os
 from werkzeug.utils import secure_filename
@@ -34,6 +35,7 @@ app.register_blueprint(executor_blueprint)
 app.register_blueprint(main)
 app.register_blueprint(auth)
 app.register_blueprint(admin)
+app.register_blueprint(clientes)
 
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
@@ -378,7 +380,6 @@ def novaExecutor():
                         return redirect("/executor/menu")
 
     return render_template('/nova-requisicao-exec.html',nome=nome,senha=senha,email=email)
-
 
 if __name__ == "__main__":
     app.run(debug=True)

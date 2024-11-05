@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Cadastre-se</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    </head>
+    <body>
+        <div class="voltar">
+            <a href="/">
+                <img src="../../static/images/Voltar.svg" alt="Voltar">
+            </a>
+        </div>
+        <form action="/adm/clientes" method="POST" >
+            <div class="containerClientes">
+                <div class="clientes">
+                    <h1>Cadastrar-se</h1>
+                    <div class="dadosCliente">
+                        <label>Codigo Cliente</label>
+                        <input type="codigo_cliente" name="codigo_cli" required>
+                        <label>Nome do Cliente</label>
+                        <input type="nome_cliente" name="nome_cli" required>
+                    </div>
+                    <button type="submit">Cadastrar</button>
+                </div>
+            </div>
+        </form>
+    </body>
+</html>

@@ -342,8 +342,8 @@ main {
 }
 
 .req-aberta,.req-fechada, .tipo-legenda{
-    font-weight: 500;
-    font-size: 24px;
+    font-weight: 700;
+    font-size: 36px;
     margin: 40px 0px 32px 0px;
 }
 
@@ -952,7 +952,7 @@ span{
     margin-bottom: 16px;
 }
 .filtro-dia label{
-    font-weight: 400;
+    font-weight: 700;
 }
 .chartbox {
     max-width: 700px;
