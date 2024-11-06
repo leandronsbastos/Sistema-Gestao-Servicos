@@ -12,6 +12,16 @@
                 <img src="../../static/images/Voltar.svg" alt="Voltar">
             </a>
         </div>
+		<form action="/adm/clientes" method="GET" >
+            <div class="containerListaClientes">
+                <h1>Lista de Clientes</h1>
+                <ul>
+                    {% for cliente in clientes %}
+                        <li>ID: {{ cliente[0] }} - Codigo: {{ cliente[1] }} - Nome: {{ cliente[2] }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </form>
         <form action="/adm/clientes" method="POST" >
             <div class="containerClientes">
                 <div class="clientes">

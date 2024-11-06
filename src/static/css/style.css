@@ -932,6 +932,35 @@ span{
     font-size: 18px;
 }
 
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.containerListaClientes {
+    margin: auto;
+    display: flex;
+    justify-content: top;
+    align-items: top;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+h1 {
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
 /* Navbar adm*/
 
 .dropdown-content {
