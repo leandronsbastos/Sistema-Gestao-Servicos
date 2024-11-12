@@ -68,6 +68,7 @@ def user():
         Details = request.form
         titulo = Details['titulo']
         descricao = Details['descricao']
+        cliente = clientes['codigo']
         tipo = Details['tipo']   
         status_sol = 'Aberta'
         comentario= ''

@@ -74,6 +74,14 @@
                 <input type="text" id="title" name="titulo" required>
             </div>
             <div>
+                <label>Cliente</label>
+                <select name="cliente">
+                    {% for cliente in clientes %}
+                    <p>Codigo : {{cliente[0]}} - {{cliente[1]}} </p>
+                {% endfor %}
+                </select>
+            </div>
+            <div>
                 <label>Tipo</label>
                 <select name="tipo">
                     <option value="Cadastro">Cadastro</option>

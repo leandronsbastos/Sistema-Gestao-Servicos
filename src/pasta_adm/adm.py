@@ -1123,7 +1123,34 @@ def delete(id):
         Cursor.close()
     return redirect('/adm/menu')
 
-@admin.route('/adm/clientes')
+@admin.route("/adm/clientes", methods=["GET", "POST"])
+def inserirClientes():
+    if request.method == "POST":
+        codigo = request.form.get("codigo_cli")
+        nome = request.form.get("nome_cli")
+        
+        if codigo and nome:
+            cur = mysql.cursor()
+            codigodb=cur.execute("SELECT codigo_cli FROM clientes WHERE codigo_cli= %s",(codigo,))
+            if codigodb:
+               flash('Código de Cliente já registrado')
+            # Conectar ao banco de dados e inserir o cliente
+            cur.execute("INSERT INTO clientes(codigo_cli, nome_cli) VALUES(%s, %s)", (codigo, nome))
+            mysql.commit()  # Confirma a transação
+            cur.close()  # Fecha o cursor
+            
+            # Redireciona para a página principal após inserir
+            return redirect(url_for('/adm/clientes'))
+    
+    # Consultar clientes cadastrados no banco de dados
+    cur = mysql.cursor()
+    cur.execute("SELECT codigo_cli, nome_cli FROM clientes")
+    clientes = cur.fetchall()  # Retorna todos os clientes
+    cur.close()
+
+    return render_template("/clientes.html", clientes=clientes)
+
+"""@admin.route('/adm/clientes')
 def inserirCliente():
     return render_template('/clientes.html')
 
@@ -1140,4 +1167,4 @@ def cadastro():
         Cursor.execute("INSERT INTO Clientes (codigo_cli, nome_cli) VALUES(%s, %s)",(codigo, nome))
         mysql.commit()
         Cursor.close()        
-    return redirect ('/adm')
+    return redirect ('/adm')"""

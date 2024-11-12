@@ -11,8 +11,24 @@ def login():
 def inserirCliente():
     return render_template('/clientes.html')
 
-@clientes.route('/clientes', methods=['GET','POST'])
+@clientes.route('/clientes', methods=['POST'])
 def cadastro ():
+    formulario = request.form
+    codigo = formulario['codigo_cli']
+    nome = formulario['nome_cli']
+    
+    with mysql.cursor()as Cursor:
+        codigodb=Cursor.execute("SELECT codigo_cli FROM clientes WHERE codigo_cli= %s",(codigo,))
+        if codigodb:
+            flash('Código de Cliente já registrado')
+        Cursor.execute("INSERT INTO Clientes (codigo_cli, nome_cli) VALUES(%s, %s)",(codigo, nome))
+        mysql.commit()
+        Cursor.close()
+        
+    return redirect (url_for('/adm/clientes'))
+
+@clientes.route('/clientes', methods=['GET'])
+def lista ():
     formulario = request.form
     codigo = formulario['codigo_cli']
     nome = formulario['nome_cli']

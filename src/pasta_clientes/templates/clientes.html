@@ -1,40 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Cadastrar Cliente</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
-    </head>
-    <body>
-        <div class="voltar">
-            <a href="/adm">
-                <img src="../../static/images/Voltar.svg" alt="Voltar">
-            </a>
-        </div>
-		<form action="/adm/clientes" method="GET" >
-            <div class="containerListaClientes">
-                <h1>Lista de Clientes</h1>
-                <ul>
-                    {% for cliente in clientes %}
-                        <li>ID: {{ cliente[0] }} - Codigo: {{ cliente[1] }} - Nome: {{ cliente[2] }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Clientes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+</head>
+<body>
+    <div class="containerClientes">
+        <h1>Cadastro de Clientes</h1>
+        <!-- Formulário de Cadastro -->
+        <form method="POST" action="/adm/clientes">
+            <label for="codigo">Código</label>
+            <input type="text" id="codigo" name="codigo" required>
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nome" required>
+            <button type="submit">Cadastrar</button>
         </form>
-        <form action="/adm/clientes" method="POST" >
-            <div class="containerClientes">
-                <div class="clientes">
-                    <h1>Cadastrar Cliente</h1>
-                    <div class="dadosClientes">
-                        <label>Codigo Cliente</label>
-                        <input type="codigo" name="codigo_cli" required>
-                        <label>Nome do Cliente</label>
-                        <input type="nome" name="nome_cli" required>
-                    </div>
-                    <button type="submit">Cadastrar</button>
-                </div>
-            </div>
-        </form>
-    </body>
+                     
+        <h2>Clientes Cadastrados</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nome</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cliente in clientes %}
+                    <tr>
+                        <td>{{ cliente[0] }}</td>
+                        <td>{{ cliente[1] }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="2">Nenhum cliente cadastrado.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
 </html>

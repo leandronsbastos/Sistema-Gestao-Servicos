@@ -21,9 +21,14 @@ Create table solicitacao(
     data_inicio date,
     data_final date,
     id_user int,
+    id_cliente int
     avaliacao int,
     coment_avaliacao varchar(155),
     id_fechador int);
+
+Create table clientes(
+    codigo_cli int,
+    nome_cli varchar(400));
 
 ALTER TABLE solicitacao ADD FOREIGN KEY (id_user) REFERENCES user(id_user);
 INSERT INTO user (nome_user,email_user,pass_user,type_user) VALUES ('admin','admin@admin','admin','admin');
